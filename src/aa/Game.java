@@ -5,9 +5,8 @@
  */
 package aa;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Color;
+import static aa.Game.gp;
+import static aa.Game.mp;
 import javax.swing.JFrame;
 
 /**
@@ -17,9 +16,10 @@ import javax.swing.JFrame;
 public class Game extends javax.swing.JFrame {
 
     /**
-     * Creates new form CardBack
+     * Creates new form Game1
      */
     static MenuPanel mp; static int numeroMosse = 0; static GamePanel gp; static int numeroMosseReali = 0;
+    
     public Game() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -35,22 +35,9 @@ public class Game extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Ca = new javax.swing.JButton();
         StartGameBtn = new javax.swing.JButton();
 
-        Ca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/aa/images/card_back.jpg"))); // NOI18N
-        Ca.setAlignmentY(0.0F);
-        Ca.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Ca.setHideActionText(true);
-        Ca.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
-        Ca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CaActionPerformed(evt);
-            }
-        });
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(133, 200, 242));
 
         StartGameBtn.setBackground(new java.awt.Color(255, 255, 255));
         StartGameBtn.setText("AVVIA GIOCO");
@@ -67,30 +54,25 @@ public class Game extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(554, 554, 554)
                 .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(587, Short.MAX_VALUE))
+                .addContainerGap(575, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(305, 305, 305)
                 .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(399, Short.MAX_VALUE))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    //private Button StartGameButton = 
-    private void CaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CaActionPerformed
 
-      
     private void StartGameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartGameBtnActionPerformed
         // TODO add your handling code here:
         StartGameBtn.setVisible(false);
         setMenuPanel();
         setGamePanel();
-        
+
     }//GEN-LAST:event_StartGameBtnActionPerformed
 
     /**
@@ -120,7 +102,7 @@ public class Game extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -143,9 +125,9 @@ public class Game extends javax.swing.JFrame {
         this.add(mp);
      
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ca;
     private javax.swing.JButton StartGameBtn;
     // End of variables declaration//GEN-END:variables
 }

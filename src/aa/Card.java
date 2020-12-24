@@ -40,7 +40,7 @@ public class Card extends javax.swing.JPanel implements MouseListener {
         this.front_image = loadImage();
         //this.Front.image = ...
     }
-//super prova epica 1
+//super prova epica 2
     public void turnCardUp() {
         cardBackBtn.setVisible(false);
         status = 1;

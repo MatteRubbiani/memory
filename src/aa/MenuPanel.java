@@ -48,6 +48,14 @@ public class MenuPanel extends javax.swing.JPanel {
         setLayout(new BorderLayout());
         add(label);
     }
+    
+    public void setPointLabel(int point){
+       int  points = point + Integer.parseInt(pointsLabel.getText());
+        pointsLabel.setText(""+points);
+    }
+    public int getPointLabel(){
+        return Integer.parseInt(pointsLabel.getText());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,6 +70,8 @@ public class MenuPanel extends javax.swing.JPanel {
         descriptionLabel = new javax.swing.JLabel();
         numeroMosseLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
+        pointLabel = new javax.swing.JLabel();
+        pointsLabel = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -79,6 +89,11 @@ public class MenuPanel extends javax.swing.JPanel {
         nameLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         nameLabel.setText("Nome");
 
+        pointLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+
+        pointsLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        pointsLabel.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,11 +101,14 @@ public class MenuPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(139, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
-                        .addComponent(numeroMosseLabel)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pointLabel)
+                            .addComponent(numeroMosseLabel)
+                            .addComponent(pointsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52))
         );
         layout.setVerticalGroup(
@@ -100,7 +118,11 @@ public class MenuPanel extends javax.swing.JPanel {
                 .addComponent(nameLabel)
                 .addGap(38, 38, 38)
                 .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(pointLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pointsLabel)
+                .addGap(52, 52, 52)
                 .addComponent(numeroMosseLabel)
                 .addGap(59, 59, 59))
         );
@@ -112,5 +134,7 @@ public class MenuPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JLabel numeroMosseLabel;
+    private javax.swing.JLabel pointLabel;
+    private javax.swing.JLabel pointsLabel;
     // End of variables declaration//GEN-END:variables
 }

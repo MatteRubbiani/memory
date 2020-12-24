@@ -34,7 +34,7 @@ public class GamePanel extends javax.swing.JPanel {
     /**
      * Creates new form GamePanel
      */
-    JPanel[] phMatrix[]; Card[] cardsMatrix; String[] descriptionsMatrix; static String[] namesMatrix  = {"Ferraguti", "Stefani", "Garbesi", "Artioli", "Longagnani", "Baraldi", "Muratori", "Tancredi", "Di Gabriele", "Della Casa", "Bettini", "Silvestro", "Parlato", "Bertani", "Monica", "Chiarello", "Rossana", "Morelli", "Zanardi", "Bianchi"};
+    JPanel[] phMatrix[]; static Card[] cardsMatrix; String[] descriptionsMatrix; static String[] namesMatrix  = {"Ferraguti", "Stefani", "Garbesi", "Artioli", "Longagnani", "Baraldi", "Muratori", "Tancredi", "Di Gabriele", "Della Casa", "Bettini", "Silvestro", "Parlato", "Bertani", "Monica", "Chiarello", "Rossana", "Morelli", "Zanardi", "Bianchi"};
     public GamePanel() {
         initComponents();
         
@@ -94,6 +94,51 @@ public class GamePanel extends javax.swing.JPanel {
         x[4][5] = ph45;
         x[4][6] = ph46;
         x[4][7] = ph47;
+        return x;
+    }
+    
+    public JPanel[][] createLONGAPhMatrix(){
+        JPanel[] x[] = new JPanel[5][8];
+        x[4][7] = ph00;
+        x[4][6] = ph01;
+        x[4][5] = ph02;
+        x[4][4] = ph03;
+        x[4][3] = ph04;
+        x[4][2] = ph05;
+        x[4][1] = ph06;
+        x[4][0] = ph07;
+        x[3][7] = ph10;
+        x[3][6] = ph11;
+        x[3][5] = ph12;
+        x[3][4] = ph13;
+        x[3][3] = ph14;
+        x[3][2] = ph15;
+        x[3][1] = ph16;
+        x[3][0] = ph17;
+        x[2][7] = ph20;
+        x[2][6] = ph21;
+        x[2][5] = ph22;
+        x[2][4] = ph23;
+        x[2][3] = ph24;
+        x[2][2] = ph25;
+        x[2][1] = ph26;
+        x[2][0] = ph27;
+        x[1][7] = ph30;
+        x[1][6] = ph31;
+        x[1][5] = ph32;
+        x[1][4] = ph33;
+        x[1][3] = ph34;
+        x[1][2] = ph35;
+        x[1][1] = ph36;
+        x[1][0] = ph37;
+        x[0][7] = ph40;
+        x[0][6] = ph41;
+        x[0][5] = ph42;
+        x[0][4] = ph43;
+        x[0][3] = ph44;
+        x[0][2] = ph45;
+        x[0][1] = ph46;
+        x[0][0] = ph47;
         return x;
     }
     

@@ -57,7 +57,6 @@ public class Card extends javax.swing.JPanel implements MouseListener {
             Game.numeroMosseReali -=1;
             Game.gp.turnDownAll();
             turnCardUp();
-            
         }
         
     }

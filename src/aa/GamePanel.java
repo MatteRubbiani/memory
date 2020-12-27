@@ -34,7 +34,9 @@ public class GamePanel extends javax.swing.JPanel {
     /**
      * Creates new form GamePanel
      */
+    
     JPanel[] phMatrix[]; static Card[] cardsMatrix; String[] descriptionsMatrix; static String[] namesMatrix  = {"Ferraguti", "Stefani", "Garbesi", "Artioli", "Longagnani", "Baraldi", "Muratori", "Tancredi", "Di Gabriele", "Della Casa", "Bettini", "Silvestro", "Parlato", "Bertani", "Monica", "Chiarello", "Rossana", "Morelli", "Zanardi", "Bianchi"};
+    Card lastCardUp;
     public GamePanel() {
         initComponents();
         
@@ -245,6 +247,9 @@ public class GamePanel extends javax.swing.JPanel {
       ar[i] = a;
     }
   }
+   public void changeLastCardUp(Card card){
+       this.lastCardUp = card;
+   }
     
     
 

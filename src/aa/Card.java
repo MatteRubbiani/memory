@@ -17,7 +17,7 @@ import javax.swing.JLabel;
  *
  * @author matte
  */
-public class Card extends javax.swing.JPanel implements MouseListener {
+public class Card extends javax.swing.JPanel {
 
     /**
      * Creates new form Card
@@ -31,7 +31,6 @@ public class Card extends javax.swing.JPanel implements MouseListener {
     JLabel front_image;
 
     public Card(int card_id, String description) throws IOException {
-        super.addMouseListener(this);
         initComponents();
         this.status = 0; //back:0, front:1, taken:2
         this.cardId = card_id;  // reference to outer array with all details
@@ -53,6 +52,20 @@ public class Card extends javax.swing.JPanel implements MouseListener {
         JLabel front_image_1 = createImageGivenId("ciao");
         Game.mp.refresh(front_image_1);
         int numeroMosse = Game.numeroMosse;
+        if (numeroMosse % 3 == 1){
+            Game.gp.changeLastCardUp(this);
+        }
+        if (numeroMosse % 3 == 2){
+            Card firstCard = Game.gp.lastCardUp;
+            if (firstCard.name == this.name){
+                firstCard.status = 2;
+                this.status = 2;
+                Game.mp.addPointsToCurrentPlayer(1);
+            }else{
+                Game.mp.playerTurn += 1;
+            }
+            Game.mp.updatePlayerInfo();
+        }
         if (numeroMosse % 3 == 0){
             Game.numeroMosseReali -=1;
             Game.gp.turnDownAll();
@@ -139,29 +152,4 @@ public class Card extends javax.swing.JPanel implements MouseListener {
     private javax.swing.JButton cardBackBtn;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        turnCardDown();
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        //To change body of generated methods, choose Tools | Templates.
-    }
 }

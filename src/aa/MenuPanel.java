@@ -20,13 +20,19 @@ public class MenuPanel extends javax.swing.JPanel {
     /**
      * Creates new form MenuPanel
      */
-    JLabel cardLabel = new JLabel();
-    public MenuPanel() {
+    JLabel cardLabel = new JLabel(); Player[] playersMatrix; int playerTurn = 0;
+    public MenuPanel(Player[] playersMatrix) {
         initComponents();
         setBackground(Costants.mainColor);
         this.setBorder(new LineBorder(Costants.secondaryColor, 3));
+        this.playersMatrix = playersMatrix;
+        this.updatePlayerInfo();
+        this.setClassifica();
     }
     
+    public void setClassifica(){
+        firstLabel.setText(playersMatrix[0].name);
+    }
     public void setDescriptionLabel(String text){
         descriptionLabel.setText("<html>"+text+"</html>");
 
@@ -40,7 +46,6 @@ public class MenuPanel extends javax.swing.JPanel {
         remove(this.cardLabel);
         setLabel(label);
         this.cardLabel = label;
-        numeroMosseLabel.setText(Game.numeroMosseReali+"");
         
     }
     
@@ -49,12 +54,13 @@ public class MenuPanel extends javax.swing.JPanel {
         add(label);
     }
     
-    public void setPointLabel(int point){
-       int  points = point + Integer.parseInt(pointsLabel.getText());
-        pointsLabel.setText(""+points);
+    public void updatePlayerInfo(){
+        playerLabel.setText("<html>"+this.playersMatrix[this.playerTurn%(this.playersMatrix.length)].name+"</html>");
+        pointsLabel.setText("<html>"+this.playersMatrix[this.playerTurn%(this.playersMatrix.length)].points+"</html>");
     }
-    public int getPointLabel(){
-        return Integer.parseInt(pointsLabel.getText());
+    
+    public void addPointsToCurrentPlayer(int x){
+        this.playersMatrix[this.playerTurn%(this.playersMatrix.length)].points += x;
     }
 
     /**
@@ -67,24 +73,36 @@ public class MenuPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         descriptionLabel = new javax.swing.JLabel();
-        numeroMosseLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
         pointLabel = new javax.swing.JLabel();
         pointsLabel = new javax.swing.JLabel();
+        label1 = new javax.swing.JLabel();
+        playerLabel = new javax.swing.JLabel();
+        pointsLabel1 = new javax.swing.JLabel();
+        firstNumber = new javax.swing.JLabel();
+        secondNumber = new javax.swing.JLabel();
+        thirdNumber = new javax.swing.JLabel();
+        fourthNumber = new javax.swing.JLabel();
+        secondLabel = new javax.swing.JLabel();
+        thirdLabel = new javax.swing.JLabel();
+        fourthLabel = new javax.swing.JLabel();
+        firstLabel = new javax.swing.JLabel();
+        secondPointLabel = new javax.swing.JLabel();
+        thirdPointsLabel = new javax.swing.JLabel();
+        fourthPointsLabel = new javax.swing.JLabel();
+        firstPointsLabel = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel2");
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         descriptionLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         descriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         descriptionLabel.setText("Descrizione");
-
-        numeroMosseLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        numeroMosseLabel.setText("Numero mosse");
-        numeroMosseLabel.setToolTipText("");
-        numeroMosseLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         nameLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         nameLabel.setText("Nome");
@@ -94,47 +112,188 @@ public class MenuPanel extends javax.swing.JPanel {
         pointsLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         pointsLabel.setText("0");
 
+        label1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        label1.setText("è il turno di:");
+        label1.setToolTipText("");
+        label1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        playerLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        playerLabel.setText("Player");
+        playerLabel.setToolTipText("");
+        playerLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        pointsLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        pointsLabel1.setText("Punteggio:");
+
+        firstNumber.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        firstNumber.setForeground(new java.awt.Color(232, 186, 19));
+        firstNumber.setText("1°");
+
+        secondNumber.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        secondNumber.setForeground(new java.awt.Color(186, 183, 171));
+        secondNumber.setText("2°");
+
+        thirdNumber.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        thirdNumber.setForeground(new java.awt.Color(181, 109, 0));
+        thirdNumber.setText("3°");
+
+        fourthNumber.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        fourthNumber.setText("4°");
+
+        secondLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        secondLabel.setForeground(new java.awt.Color(186, 183, 171));
+        secondLabel.setText("Player");
+        secondLabel.setToolTipText("");
+        secondLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        thirdLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        thirdLabel.setForeground(new java.awt.Color(181, 109, 0));
+        thirdLabel.setText("Player");
+        thirdLabel.setToolTipText("");
+        thirdLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        fourthLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        fourthLabel.setText("Player");
+        fourthLabel.setToolTipText("");
+        fourthLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        firstLabel.setBackground(new java.awt.Color(232, 186, 19));
+        firstLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        firstLabel.setForeground(new java.awt.Color(232, 186, 19));
+        firstLabel.setText("Player");
+        firstLabel.setToolTipText("");
+        firstLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        secondPointLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        secondPointLabel.setForeground(new java.awt.Color(186, 183, 171));
+        secondPointLabel.setText("0");
+
+        thirdPointsLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        thirdPointsLabel.setForeground(new java.awt.Color(181, 109, 0));
+        thirdPointsLabel.setText("0");
+
+        fourthPointsLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        fourthPointsLabel.setText("0");
+
+        firstPointsLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        firstPointsLabel.setForeground(new java.awt.Color(232, 186, 19));
+        firstPointsLabel.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(139, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
+                        .addGap(126, 126, 126)
+                        .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(pointLabel)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(79, 186, Short.MAX_VALUE)
+                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pointLabel)
-                            .addComponent(numeroMosseLabel)
-                            .addComponent(pointsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52))
+                            .addComponent(secondNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(thirdNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(firstNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fourthNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(fourthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(fourthPointsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(thirdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(thirdPointsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(firstLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstPointsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(secondLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(secondPointLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(pointsLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(label1)
+                        .addGap(30, 30, 30)
+                        .addComponent(playerLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pointsLabel1)
+                        .addGap(71, 71, 71)))
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
+                .addGap(59, 59, 59)
                 .addComponent(nameLabel)
-                .addGap(38, 38, 38)
+                .addGap(37, 37, 37)
                 .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(pointLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pointsLabel)
-                .addGap(52, 52, 52)
-                .addComponent(numeroMosseLabel)
-                .addGap(59, 59, 59))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pointsLabel)
+                    .addComponent(playerLabel)
+                    .addComponent(label1)
+                    .addComponent(pointsLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNumber)
+                    .addComponent(firstLabel)
+                    .addComponent(firstPointsLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(secondNumber)
+                    .addComponent(secondLabel)
+                    .addComponent(secondPointLabel))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(thirdLabel)
+                    .addComponent(thirdNumber)
+                    .addComponent(thirdPointsLabel))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fourthNumber)
+                    .addComponent(fourthLabel)
+                    .addComponent(fourthPointsLabel))
+                .addGap(25, 25, 25))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel descriptionLabel;
+    private javax.swing.JLabel firstLabel;
+    private javax.swing.JLabel firstNumber;
+    private javax.swing.JLabel firstPointsLabel;
+    private javax.swing.JLabel fourthLabel;
+    private javax.swing.JLabel fourthNumber;
+    private javax.swing.JLabel fourthPointsLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel label1;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JLabel numeroMosseLabel;
+    private javax.swing.JLabel playerLabel;
     private javax.swing.JLabel pointLabel;
     private javax.swing.JLabel pointsLabel;
+    private javax.swing.JLabel pointsLabel1;
+    private javax.swing.JLabel secondLabel;
+    private javax.swing.JLabel secondNumber;
+    private javax.swing.JLabel secondPointLabel;
+    private javax.swing.JLabel thirdLabel;
+    private javax.swing.JLabel thirdNumber;
+    private javax.swing.JLabel thirdPointsLabel;
     // End of variables declaration//GEN-END:variables
 }

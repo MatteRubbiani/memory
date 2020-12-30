@@ -40,19 +40,11 @@ public class GamePanel extends javax.swing.JPanel {
     Card lastCardUp;
     public GamePanel() {
         initComponents();
-        
         this.descriptionsMatrix = createDescriptionMatrix();
         this.phMatrix = createPhMatrix();
         this.cardsMatrix = createCardsMatrix();
-
-        
-        
         setBackground(Costants.mainColor);
-        fillPh();
-        
-        
-
-        
+        fillPh();   
     }
 
     public JPanel[][] createPhMatrix(){
@@ -179,7 +171,7 @@ public class GamePanel extends javax.swing.JPanel {
             }      
         }
     }
-
+    
     public void shuffleCards(){
         shuffleArray(this.cardsMatrix);
     }
@@ -239,29 +231,57 @@ public class GamePanel extends javax.swing.JPanel {
                     c.setBorder(new LineBorder(Costants.secondaryColor, 2));
                     p.add(c);
                 }
-                
-                
-                
                 counter++;
             }      
         }
-        
-        for (int i=0; i<2;i++){
-            int rnd = new Random().nextInt(40);
             JPanel p1;
+            int rnd = new Random().nextInt(40);
             Card c1 = cardsMatrix[rnd];
-            while(c1.id == 2){
+            while(c1.id % 20 == 2){
                 rnd = new Random().nextInt(40);
                 c1 = cardsMatrix[rnd];
             }
-            p1 = phMatrix[4-rnd%5][rnd%8];
-            emptyPh(p1);
-            c1.setPreferredSize(new Dimension(90, 119));
-            c1.setBounds(0, 0, 90, 119);
-            c1.setBorder(new LineBorder(Costants.secondaryColor, 2));
-            p1.add(c1);
-        }
+                p1 = phMatrix[(int)(rnd/8)][rnd%8];
+                emptyPh(p1);
+                c1.setPreferredSize(new Dimension(90, 119));
+                c1.setBounds(0, 0, 90, 119);
+                c1.setBorder(new LineBorder(Costants.secondaryColor, 2));
+                p1.add(c1);
+                
+            JPanel p2;
+            int rnd2 = new Random().nextInt(40);
+            Card c2 = cardsMatrix[rnd];
+            while(c2.id % 20 == 2){
+                rnd2 = new Random().nextInt(40);
+                c2 = cardsMatrix[rnd];
+            }
+            while(rnd2 == rnd){
+                rnd2 = new Random().nextInt(40);
+                c2 = cardsMatrix[rnd];
+            }
+                p2 = phMatrix[(int)(rnd/8)][rnd%8];
+                emptyPh(p2);
+                c2.setPreferredSize(new Dimension(90, 119));
+                c2.setBounds(0, 0, 90, 119);
+                c2.setBorder(new LineBorder(Costants.secondaryColor, 2));
+                p2.add(c2);
 
+    }
+    
+    public void PattyUnlt(){
+        int counter = 0;
+        for (int i=0; i<5; i++){
+            for (int j=0; j<8; j++){
+                JPanel p = phMatrix[i][j];
+                emptyPh(p);
+                Card c =  cardsMatrix[counter];
+                c.setPreferredSize(new Dimension(90, 119));
+                c.setBorder(new LineBorder(Costants.secondaryColor, 0));
+                c.setBounds(0, 0, 90, 119);
+                p.add(c);
+                counter++;
+            }      
+        }
     }
     
     public void emptyPh(JPanel p){
@@ -273,6 +293,7 @@ public class GamePanel extends javax.swing.JPanel {
                     p.repaint();
                     
     }
+    
     public void turnDownAll(){
         for (int i=0; i<40; i++){
             Card c = cardsMatrix[i];
@@ -292,6 +313,7 @@ public class GamePanel extends javax.swing.JPanel {
       ar[i] = a;
     }
   }
+ 
    public void changeLastCardUp(Card card){
        this.lastCardUp = card;
    }

@@ -105,6 +105,10 @@ public class Card extends javax.swing.JPanel implements ActionListener {
     
     public void superPowerWrongCouple(){
         Card c = Game.gp.lastCardUp;
+        //garbesi 2
+        if (c.id % 20 == 2){
+            Game.gp.PattyUnlt();
+        }
         //artioli 3
         if (c.id % 20 == 3){
             Game.gp.artioliFill();
@@ -113,14 +117,12 @@ public class Card extends javax.swing.JPanel implements ActionListener {
         if (c.id % 20 == 4){
             Game.gp.longaFill();
         }
-        
         //Tancredi 7
         if (c.id % 20 == 7){
             if (Game.mp.tancreCounter<1){
                 Game.numeroMosse--;
                 Game.mp.playerTurn -= 1;
                 Game.mp.tancreCounter++;
-                System.out.println("aaaa");
             }else{
                 Game.mp.tancreCounter = 0;
             }
@@ -139,6 +141,10 @@ public class Card extends javax.swing.JPanel implements ActionListener {
                 }
  
             }
+        }
+        //garbesi 2
+        if (c.id % 20 == 2){
+            Game.gp.PattyUnlt();
         }
         //muratori 6
         if (c.id % 20 == 6){
@@ -173,7 +179,6 @@ public class Card extends javax.swing.JPanel implements ActionListener {
                 i.points-=ptr;
             }
         }
-       
         //Parlato 12
         //Morelli 17
         

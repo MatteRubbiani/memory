@@ -12,9 +12,13 @@ package aa;
  */
 public class Player {
     String name;
-    int points = 0;
+    int points = 2;
     
     public Player(String name){
         this.name = name;
+    }
+    
+    public int getPoints(){
+        return points;
     }
 }

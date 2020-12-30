@@ -6,24 +6,32 @@
 package aa;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
 
 /**
  *
  * @author matte
  */
-public class Card extends javax.swing.JPanel {
+public class Card extends javax.swing.JPanel implements ActionListener {
 
     /**
      * Creates new form Card
      */
     int status;
-    int cardId;
+    int id;
     JLabel backImage;
     String superPowerDescription;
     Image frontImage;
@@ -33,18 +41,21 @@ public class Card extends javax.swing.JPanel {
     public Card(int card_id, String description) throws IOException {
         initComponents();
         this.status = 0; //back:0, front:1, taken:2
-        this.cardId = card_id;  // reference to outer array with all details
+        this.id = card_id;  // reference to outer array with all details
         this.superPowerDescription = description;
-        this.name = GamePanel.namesMatrix[cardId % 20];
+        this.name = GamePanel.namesMatrix[id % 20];
         this.front_image = loadImage();
         //this.Front.image = ...
     }
-//super prova epica 2
-    public void turnCardUp() {
+    
+    public void rotateCardUp(){
         cardBackBtn.setVisible(false);
         status = 1;
         setLayout(new BorderLayout());
         add(this.front_image);
+    }
+    public void turnCardUp() {
+        rotateCardUp(); 
         Game.mp.setDescriptionLabel(this.superPowerDescription);
         Game.mp.setNameLabel(this.name);
         Game.numeroMosse += 1;
@@ -53,18 +64,24 @@ public class Card extends javax.swing.JPanel {
         Game.mp.refresh(front_image_1);
         int numeroMosse = Game.numeroMosse;
         if (numeroMosse % 3 == 1){
+            superPowerSingle();
             Game.gp.changeLastCardUp(this);
         }
         if (numeroMosse % 3 == 2){
             Card firstCard = Game.gp.lastCardUp;
+            //MODIFICATA
             if (firstCard.name == this.name){
+                superPowerRightCouple();
                 firstCard.status = 2;
                 this.status = 2;
                 Game.mp.addPointsToCurrentPlayer(1);
             }else{
+                superPowerWrongCouple();
                 Game.mp.playerTurn += 1;
             }
+            // VA BENEEEEE DA QUI
             Game.mp.updatePlayerInfo();
+            Game.mp.setClassifica();
         }
         if (numeroMosse % 3 == 0){
             Game.numeroMosseReali -=1;
@@ -73,6 +90,8 @@ public class Card extends javax.swing.JPanel {
         }
         
     }
+    
+    
 
     public void turnCardDown() {
         if (status == 1) {
@@ -83,25 +102,103 @@ public class Card extends javax.swing.JPanel {
         }
 
     }
+    
+    public void superPowerWrongCouple(){
+        Card c = Game.gp.lastCardUp;
+        //artioli 3
+        if (c.id % 20 == 3){
+            Game.gp.artioliFill();
+        }
+        //longagnani 4
+        if (c.id % 20 == 4){
+            Game.gp.longaFill();
+        }
+        
+        //Tancredi 7
+        if (c.id % 20 == 7){
+            if (Game.mp.tancreCounter<1){
+                Game.numeroMosse--;
+                Game.mp.playerTurn -= 1;
+                Game.mp.tancreCounter++;
+                System.out.println("aaaa");
+            }else{
+                Game.mp.tancreCounter = 0;
+            }
+        }else{
+            Game.gp.changeLastCardUp(this);
+        }
+    }
+    
+    public void superPowerRightCouple(){
+        Card c = Game.gp.lastCardUp;
+        //ferraguri 0
+        if (c.id % 20 == 0){
+            for (int i=0; i<Game.mp.playersMatrix.length; i++){
+                if (Game.mp.playerTurn % Game.mp.playersMatrix.length != i && Game.mp.playersMatrix[i].points>0){  
+                   Game.mp.playersMatrix[i].points --;
+                }
+ 
+            }
+        }
+        //muratori 6
+        if (c.id % 20 == 6){
+           if (Game.mp.bettiniWasTaken){
+               Game.mp.addPointsToPlayer(Game.mp.whoHasBettini, -1);
+           }else{
+               Game.gp.popBettini();
+           }
+        }
+        
+        //della casa 9
+        if (c.id % 20 == 9){
+            Game.mp.addPointsToCurrentPlayer(1);
+        }
+        //bettini 10
+        if (c.id % 20 == 10){
+            Game.mp.takeBettini();
+        }
+     
+    }
+    
+    public void superPowerSingle(){
+        //Garbersi 2
+        if (this.id % 20 == 2){
+            Game.gp.pattyHlt();
+        }
+        //Baraldi 5
+        if (this.id % 20 == 5){
+            //trova punteggio da togliere
+            int ptr = Game.mp.sortedPlayers[Game.mp.sortedPlayers.length-1].points;
+            for (Player i : Game.mp.playersMatrix){
+                i.points-=ptr;
+            }
+        }
+       
+        //Parlato 12
+        //Morelli 17
+        
+    }
+
+
+    
 
     public JLabel loadImage() {
-        ImageIcon icon = createImageIcon("images/" + this.cardId % 20 + ".jpg", this.cardId+"");
+        ImageIcon icon = createImageIcon("images/" + this.id % 20 + ".jpg", this.id+"");
         JLabel label1 = new JLabel("", icon, JLabel.CENTER);
         return label1;
 
         //add(label1);
     }
     
-        public JLabel createImageGivenId(String id) {
-        ImageIcon icon = createImageIcon("images/" + this.cardId % 20 + ".jpg", id);
+    public JLabel createImageGivenId(String id) {
+        ImageIcon icon = createImageIcon("images/" + this.id % 20 + ".jpg", id);
         JLabel label1 = new JLabel("", icon, JLabel.CENTER);
         return label1;
 
         //add(label1);
     }
 
-    protected ImageIcon createImageIcon(String path,
-            String description) {
+    protected ImageIcon createImageIcon(String path, String description) {
         java.net.URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL, description);
@@ -151,5 +248,10 @@ public class Card extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cardBackBtn;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

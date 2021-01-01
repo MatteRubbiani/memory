@@ -3,6 +3,7 @@ package aa;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.List;
@@ -14,18 +15,18 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-
+import java.awt.Color;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author matte
@@ -35,19 +36,24 @@ public class GamePanel extends javax.swing.JPanel {
     /**
      * Creates new form GamePanel
      */
-    
-    JPanel[] phMatrix[]; static Card[] cardsMatrix; String[] descriptionsMatrix; static String[] namesMatrix  = {"Ferraguti", "Stefani", "Garbesi", "Artioli", "Longagnani", "Baraldi", "Muratori", "Tancredi", "Di Gabriele", "Della Casa", "Bettini", "Silvestro", "Parlato", "Bertani", "Monica", "Chiarello", "Rossana", "Morelli", "Zanardi", "Bianchi"};
+    JPanel[] phMatrix[];
+    static Card[] cardsMatrix;
+    String[] descriptionsMatrix;
+    static String[] namesMatrix;
     Card lastCardUp;
+
     public GamePanel() {
         initComponents();
+        this.namesMatrix = createNamesMatrix();
         this.descriptionsMatrix = createDescriptionMatrix();
         this.phMatrix = createPhMatrix();
         this.cardsMatrix = createCardsMatrix();
         setBackground(Costants.mainColor);
-        fillPh();   
+        shuffleCards();
+        fillPh();
     }
 
-    public JPanel[][] createPhMatrix(){
+    public JPanel[][] createPhMatrix() {
         JPanel[] x[] = new JPanel[5][8];
         x[0][0] = ph00;
         x[0][1] = ph01;
@@ -91,234 +97,219 @@ public class GamePanel extends javax.swing.JPanel {
         x[4][7] = ph47;
         return x;
     }
-    
-    
-    public Card[] createCardsMatrix(){
+
+    private Card[] createCardsMatrix() {
         //creo le 20 * 2 carte
-        try{
-        Card card0 = new Card(0, descriptionsMatrix[0]);
-        Card card1 = new Card(1, descriptionsMatrix[1]);
-        Card card2 = new Card(2, descriptionsMatrix[2]);
-        Card card3 = new Card(3, descriptionsMatrix[3]);
-        Card card4 = new Card(4, descriptionsMatrix[4]);
-        Card card5 = new Card(5, descriptionsMatrix[5]);
-        Card card6 = new Card(6, descriptionsMatrix[6]);
-        Card card7 = new Card(7, descriptionsMatrix[7]);
-        Card card8 = new Card(8, descriptionsMatrix[8]);
-        Card card9 = new Card(9, descriptionsMatrix[9]);
-        Card card10 = new Card(10, descriptionsMatrix[10]);
-        Card card11 = new Card(11, descriptionsMatrix[11]);
-        Card card12 = new Card(12, descriptionsMatrix[12]);
-        Card card13 = new Card(13, descriptionsMatrix[13]);
-        Card card14 = new Card(14, descriptionsMatrix[14]);
-        Card card15 = new Card(15, descriptionsMatrix[15]);
-        Card card16 = new Card(16, descriptionsMatrix[16]);
-        Card card17 = new Card(17, descriptionsMatrix[17]);
-        Card card18 = new Card(18, descriptionsMatrix[18]);
-        Card card19 = new Card(19, descriptionsMatrix[19]);
-        Card card20 = new Card(20, descriptionsMatrix[0]);
-        Card card21 = new Card(21, descriptionsMatrix[1]);
-        Card card22 = new Card(22, descriptionsMatrix[2]);
-        Card card23 = new Card(23, descriptionsMatrix[3]);
-        Card card24 = new Card(24, descriptionsMatrix[4]);
-        Card card25 = new Card(25, descriptionsMatrix[5]);
-        Card card26 = new Card(26, descriptionsMatrix[6]);
-        Card card27 = new Card(27, descriptionsMatrix[7]);
-        Card card28 = new Card(28, descriptionsMatrix[8]);
-        Card card29 = new Card(29, descriptionsMatrix[9]);
-        Card card30 = new Card(30, descriptionsMatrix[10]);
-        Card card31 = new Card(31, descriptionsMatrix[11]);
-        Card card32 = new Card(32, descriptionsMatrix[12]);
-        Card card33 = new Card(33, descriptionsMatrix[13]);
-        Card card34 = new Card(34, descriptionsMatrix[14]);
-        Card card35 = new Card(35, descriptionsMatrix[15]);
-        Card card36 = new Card(36, descriptionsMatrix[16]);
-        Card card37 = new Card(37, descriptionsMatrix[17]);
-        Card card38 = new Card(38, descriptionsMatrix[18]);
-        Card card39 = new Card(39, descriptionsMatrix[19]);
-        Card[] x = {card0,card1,card2,card3,card4,card5,card6,card7,card8,card9,card10,card11,card12,card13,card14,card15,card16,card17,card18,card19,card20,card21,card22,card23,card24,card25,card26,card27,card28,card29,card30,card31,card32,card33,card34,card35,card36,card37,card38,card39};
-        return x;
-        } catch (IOException ex){    }
+        try {
+            Card card0 = new Card(0, descriptionsMatrix[0]);
+            Card card1 = new Card(1, descriptionsMatrix[1]);
+            Card card2 = new Card(2, descriptionsMatrix[2]);
+            Card card3 = new Card(3, descriptionsMatrix[3]);
+            Card card4 = new Card(4, descriptionsMatrix[4]);
+            Card card5 = new Card(5, descriptionsMatrix[5]);
+            Card card6 = new Card(6, descriptionsMatrix[6]);
+            Card card7 = new Card(7, descriptionsMatrix[7]);
+            Card card8 = new Card(8, descriptionsMatrix[8]);
+            Card card9 = new Card(9, descriptionsMatrix[9]);
+            Card card10 = new Card(10, descriptionsMatrix[10]);
+            Card card11 = new Card(11, descriptionsMatrix[11]);
+            Card card12 = new Card(12, descriptionsMatrix[12]);
+            Card card13 = new Card(13, descriptionsMatrix[13]);
+            Card card14 = new Card(14, descriptionsMatrix[14]);
+            Card card15 = new Card(15, descriptionsMatrix[15]);
+            Card card16 = new Card(16, descriptionsMatrix[16]);
+            Card card17 = new Card(17, descriptionsMatrix[17]);
+            Card card18 = new Card(18, descriptionsMatrix[18]);
+            Card card19 = new Card(19, descriptionsMatrix[19]);
+            Card card20 = new Card(20, descriptionsMatrix[0]);
+            Card card21 = new Card(21, descriptionsMatrix[1]);
+            Card card22 = new Card(22, descriptionsMatrix[2]);
+            Card card23 = new Card(23, descriptionsMatrix[3]);
+            Card card24 = new Card(24, descriptionsMatrix[4]);
+            Card card25 = new Card(25, descriptionsMatrix[5]);
+            Card card26 = new Card(26, descriptionsMatrix[6]);
+            Card card27 = new Card(27, descriptionsMatrix[7]);
+            Card card28 = new Card(28, descriptionsMatrix[8]);
+            Card card29 = new Card(29, descriptionsMatrix[9]);
+            Card card30 = new Card(30, descriptionsMatrix[10]);
+            Card card31 = new Card(31, descriptionsMatrix[11]);
+            Card card32 = new Card(32, descriptionsMatrix[12]);
+            Card card33 = new Card(33, descriptionsMatrix[13]);
+            Card card34 = new Card(34, descriptionsMatrix[14]);
+            Card card35 = new Card(35, descriptionsMatrix[15]);
+            Card card36 = new Card(36, descriptionsMatrix[16]);
+            Card card37 = new Card(37, descriptionsMatrix[17]);
+            Card card38 = new Card(38, descriptionsMatrix[18]);
+            Card card39 = new Card(39, descriptionsMatrix[19]);
+            Card[] x = {card0, card1, card2, card3, card4, card5, card6, card7, card8, card9, card10, card11, card12, card13, card14, card15, card16, card17, card18, card19, card20, card21, card22, card23, card24, card25, card26, card27, card28, card29, card30, card31, card32, card33, card34, card35, card36, card37, card38, card39};
+            return x;
+        } catch (IOException ex) {
+        }
         return null;
-        
+
     }
-        
-    public String[] createDescriptionMatrix(){
-        String[] x = {"Se trovi la mia copia rimuoverò un punto a tutti avversari senza aggiurgentene", "Sebbene vi odi, non posso fare molto", "La mia seconda copia si trova in uno dei posti che ti consiglio", "Attento, se non trovi la mia copia  mescolerò tutto il tabellone", 
-            "Attento, se non trovi la mia copia Vovescievò tutto il tabellone", "Mi piace tenere i punteggi bassi, dite addio ai vostri punti extra", "Se trovi la mia copia potete dire addio ai vostri punti fatti con Bettini", "Anche se ti sbagli, non preoccuparti, potrai dare", 
+
+    private String[] createDescriptionMatrix() {
+        String[] x = {"Se trovi la mia copia rimuoverò un punto a tutti avversari senza aggiurgentene", "Sebbene vi odi, non posso fare molto", "La mia seconda copia si trova in uno dei posti che ti consiglio", "Attento, se non trovi la mia copia  mescolerò tutto il tabellone",
+            "Attento, se non trovi la mia copia Vovescievò tutto il tabellone", "Mi piace tenere i punteggi bassi, dite addio ai vostri punti extra", "Se trovi la mia copia potete dire addio ai vostri punti fatti con Bettini", "Anche se ti sbagli, non preoccuparti, potrai dare",
             "Tavole subbanco!", "Grazi al potere conferitomi dal Supremo, se trovi la mia copia otterrai il doppio del punteggio", "Questa partita è un po' frivolotta", "Anche questo è in verifica", "C'è caldo, apriamo le finstre",
-            "DAI RAGAZZIIIIII", "Questa partita semra eccitante, non credo durerà molto","Siete stanchi ragazzi? Non mollate, la vittoria è vicina", "Spero Rubbiani non stia giocando senno me ne vado", "Voglio corenza e coesione durante tutta la partita", 
+            "DAI RAGAZZIIIIII", "Questa partita semra eccitante, non credo durerà molto", "Siete stanchi ragazzi? Non mollate, la vittoria è vicina", "Spero Rubbiani non stia giocando senno me ne vado", "Voglio corenza e coesione durante tutta la partita",
             "Sbrigati a vincere suonato", "La madre dei perdenti è sempre incinta!"};
         return x;
     }
-    
-    public String[] createNamesMatrix(){
-        String[] x = {"Ferraguti", "Stefani", "Garbesi", "Artioli", "Longagnani", "Baraldi", "Muratori", "Tancredi", "Di Gabriele", "Della Casa", "Bettini", "Silvestro", "Parlato", "Bertani", "Monica Ferrari", "Chiarello", "Rossana Ferrari", "Morelli", "Zanardi", "Bianchi"};
+
+    private String[] createNamesMatrix() {
+        String[] x = {"Ferraguti", "Stefani", "Garbesi", "Artioli", "Longagnani", "Baraldi", "Muratori", "Tancredi", "Di Gabriele", "Della Casa", "Bettini", "Silvestro", "Parlato", "Bertani", "Monica", "Chiarello", "Rossana", "Morelli", "Zanardi", "Bianchi"};
         return x;
     }
-    
-    public void fillPh(){
+
+    private void fillPh() {
         int counter = 0;
-        shuffleCards();
-        for (int i=0; i<5; i++){
-            for (int j=0; j<8; j++){
-                JPanel p = phMatrix[i][j]; 
-                Card c =  cardsMatrix[counter];
-                c.setPreferredSize(new Dimension(90, 119));
-                c.setBounds(0, 0, 90, 119);
-                p.add(c);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 8; j++) {
+                JPanel p = phMatrix[i][j];
+                Card c = cardsMatrix[counter];
+                addCardToPanel(c, p);
                 counter++;
-            }      
-        }
-    }
-    
-    public void shuffleCards(){
-        shuffleArray(this.cardsMatrix);
-    }
-   
-    public void emptyPhMatrix(){
-        for (int i=0; i<5; i++){
-            for (int j=0; j<8; j++){
-                JPanel p = phMatrix[i][j]; 
-                Component[] componentList = p.getComponents();
-                for(Component c : componentList){
-                    p.remove(c);
-                }
-                p.revalidate();
-                p.repaint();
-            }      
-        }
-    }
-    
-    public void artioliFill(){
-        emptyPhMatrix();
-        fillPh();
-    }
-    
-    public void longaFill(){
-        emptyPhMatrix();
-        int counter = 0;
-        for (int i=0; i<5; i++){
-            for (int j=0; j<8; j++){
-                JPanel p = phMatrix[4-i][7-j]; 
-                Card c =  cardsMatrix[counter];
-                c.setPreferredSize(new Dimension(90, 119));
-                c.setBounds(0, 0, 90, 119);
-                p.add(c);
-                counter++;
-            }      
-        }
-    }
-    
-    public void popBettini(){
-        for (Card i : cardsMatrix){
-            if (i.id % 20 == 10){
-                i.rotateCardUp();
             }
         }
     }
-    
-    public void pattyHlt(){
+
+    public void shuffleCards() {
+        shuffleArray(this.cardsMatrix);
+    }
+
+    private void emptyPhMatrix() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 8; j++) {
+                JPanel p = phMatrix[i][j];
+                emptyPh(p);
+            }
+        }
+    }
+
+    public void artioliFill() {
+        emptyPhMatrix();
+        shuffleCards();
+        fillPh();
+    }
+
+    private void addCardToPanel(Card c, JPanel p) {
+        c.setPreferredSize(new Dimension(90, 119));
+        c.setBounds(0, 0, 90, 119);
+        c.setBorder(new LineBorder(Costants.mainColor, 2));
+        p.add(c);
+    }
+
+    public void longaFill() {
+        emptyPhMatrix();
         int counter = 0;
-        for (int i=0; i<5; i++){
-            for (int j=0; j<8; j++){
-                JPanel p = phMatrix[i][j]; 
-                Card c =  cardsMatrix[counter];
-                if (c.id % 20 == 2){
+        for (int a = 4; a >= 0; a--) {
+            for (int b = 7; b >= 0; b--) {
+                JPanel p = phMatrix[a][b];
+                Card c = cardsMatrix[counter];
+                addCardToPanel(c, p);
+                counter++;
+            }
+        }
+        Collections.reverse(Arrays.asList(this.cardsMatrix));
+    }
+
+    public void popBettini() {
+        for (Card i : cardsMatrix) {
+            if (i.id % 20 == 10) {
+                i.rotateCardUp();
+                i.status = 2;
+            }
+        }
+    }
+
+    private void addCardToPanelPatty(Card c, JPanel p){
+        c.setPreferredSize(new Dimension(90, 119));
+        c.setBounds(0, 0, 90, 119);
+        c.setBorder(new LineBorder(Costants.secondaryColor, 2));
+        p.add(c);
+    }
+    
+    public void pattyHlt(int id) {
+        //evidenzio patty
+        int counter = 0;
+        System.out.print("garbii");
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 8; j++) {
+                Card c = cardsMatrix[counter];
+                if (c.id % 20 == 2) {
+                    JPanel p = phMatrix[i][j];
                     emptyPh(p);
-                    c.setPreferredSize(new Dimension(90, 119));
-                    c.setBounds(0, 0, 90, 119);
-                    c.setBorder(new LineBorder(Costants.secondaryColor, 2));
-                    p.add(c);
+                    addCardToPanelPatty(c, p);
                 }
                 counter++;
-            }      
+            }
         }
-            JPanel p1;
+        //evidenzio altri due casuali
+        JPanel p1;
             int rnd = new Random().nextInt(40);
             Card c1 = cardsMatrix[rnd];
-            while(c1.id % 20 == 2){
+            while(c1.id % 20 == 2 && c1.status != 0){
                 rnd = new Random().nextInt(40);
                 c1 = cardsMatrix[rnd];
             }
                 p1 = phMatrix[(int)(rnd/8)][rnd%8];
                 emptyPh(p1);
-                c1.setPreferredSize(new Dimension(90, 119));
-                c1.setBounds(0, 0, 90, 119);
-                c1.setBorder(new LineBorder(Costants.secondaryColor, 2));
-                p1.add(c1);
+                addCardToPanelPatty(c1, p1);
                 
             JPanel p2;
-            int rnd2 = new Random().nextInt(40);
-            Card c2 = cardsMatrix[rnd];
-            while(c2.id % 20 == 2){
-                rnd2 = new Random().nextInt(40);
-                c2 = cardsMatrix[rnd];
+            int rnd1 = new Random().nextInt(40);
+            Card c2 = cardsMatrix[rnd1];
+            while(c2.id % 20 == 2 && rnd1 == rnd && c2.status != 0){
+                rnd1 = new Random().nextInt(40);
+                c2 = cardsMatrix[rnd1];
             }
-            while(rnd2 == rnd){
-                rnd2 = new Random().nextInt(40);
-                c2 = cardsMatrix[rnd];
-            }
-                p2 = phMatrix[(int)(rnd/8)][rnd%8];
+  
+                p2 = phMatrix[(int)(rnd1/8)][rnd1%8];
                 emptyPh(p2);
-                c2.setPreferredSize(new Dimension(90, 119));
-                c2.setBounds(0, 0, 90, 119);
-                c2.setBorder(new LineBorder(Costants.secondaryColor, 2));
-                p2.add(c2);
+                addCardToPanelPatty(c2, p2);
 
     }
-    
-    public void PattyUnlt(){
-        int counter = 0;
-        for (int i=0; i<5; i++){
-            for (int j=0; j<8; j++){
-                JPanel p = phMatrix[i][j];
-                emptyPh(p);
-                Card c =  cardsMatrix[counter];
-                c.setPreferredSize(new Dimension(90, 119));
-                c.setBorder(new LineBorder(Costants.secondaryColor, 0));
-                c.setBounds(0, 0, 90, 119);
-                p.add(c);
-                counter++;
-            }      
-        }
+
+    public void PattyUnlt() {
+        emptyPhMatrix();
+        fillPh();
     }
-    
-    public void emptyPh(JPanel p){
+
+    public void emptyPh(JPanel p) {
         Component[] componentList = p.getComponents();
-                    for(Component co : componentList){
-                        p.remove(co);
-                    }
-                    p.revalidate();
-                    p.repaint();
-                    
+        for (Component co : componentList) {
+            p.remove(co);
+        }
+        p.revalidate();
+        p.repaint();
+
     }
-    
-    public void turnDownAll(){
-        for (int i=0; i<40; i++){
+
+    public void turnDownAll() {
+        for (int i = 0; i < 40; i++) {
             Card c = cardsMatrix[i];
             c.turnCardDown();
         }
     }
-    
-   static void shuffleArray(Card[] ar)
-  {
-    Random rnd = ThreadLocalRandom.current();
-    for (int i = ar.length - 1; i > 0; i--)
-    {
-      int index = rnd.nextInt(i + 1);
-      // Simple swap
-      Card a = ar[index];
-      ar[index] = ar[i];
-      ar[i] = a;
+
+    static void shuffleArray(Card[] ar) {
+        Random rnd = ThreadLocalRandom.current();
+        for (int i = ar.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            Card a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
     }
-  }
- 
-   public void changeLastCardUp(Card card){
-       this.lastCardUp = card;
-   }
+
+    public void changeLastCardUp(Card card) {
+        this.lastCardUp = card;
+    }
     
-    
+
 
     /**
      * This method is called from within the constructor to initialize the form.

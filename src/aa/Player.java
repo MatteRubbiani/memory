@@ -12,7 +12,7 @@ package aa;
  */
 public class Player {
     String name;
-    int points = 2;
+    int points = 0;
     
     public Player(String name){
         this.name = name;

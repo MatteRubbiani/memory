@@ -7,24 +7,60 @@ package aa;
 
 import static aa.Game.gp;
 import static aa.Game.mp;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Insets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.AbstractBorder;
+import javax.swing.border.EmptyBorder;
+
 
 /**
  *
  * @author matte
  */
+
+@SuppressWarnings("serial")
+
 public class Game extends javax.swing.JFrame {
 
     /**
      * Creates new form Game1
      */
-    static MenuPanel mp; static int numeroMosse = 0; static GamePanel gp; static int numeroMosseReali = 0;
-    
+    static MenuPanel mp; static int numeroMosse = 0; static GamePanel gp; static int numeroMosseReali = 0;  static EndPanel ep;
+
     public Game() {
+        UIManager.put("TextField.background", Color.WHITE);
+        UIManager.put("TextField.border", BorderFactory.createCompoundBorder(
+        new CustomeBorder(), 
+        new EmptyBorder(new Insets(4,4,4,4))));
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         getContentPane().setBackground(Costants.mainColor);
+    }
+    
+    public boolean gameHasEnded(){
+        for (Card i: gp.cardsMatrix){
+            if (i.status != 2){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    
+    public void checkGameStatus(){
+        if (!gameHasEnded()){
+            mp.setVisible(false);
+            gp.setVisible(false);
+            setEndPanel();
+            ep.setVisible(true);
+        }
     }
     
     /**
@@ -40,8 +76,8 @@ public class Game extends javax.swing.JFrame {
         pName1 = new javax.swing.JTextField();
         pName2 = new javax.swing.JTextField();
         pName3 = new javax.swing.JTextField();
-        pName4 = new javax.swing.JTextField();
         instructions = new javax.swing.JLabel();
+        pName4 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,31 +89,41 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
+        pName1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        pName1.setPreferredSize(new java.awt.Dimension(200, 50));
         pName1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pName1ActionPerformed(evt);
             }
         });
 
+        pName2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        pName2.setMinimumSize(new java.awt.Dimension(200, 50));
+        pName2.setPreferredSize(new java.awt.Dimension(200, 50));
         pName2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pName2ActionPerformed(evt);
             }
         });
 
+        pName3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        pName3.setPreferredSize(new java.awt.Dimension(200, 50));
         pName3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pName3ActionPerformed(evt);
             }
         });
 
+        instructions.setText("Inserisci il nome dei giocatori, se non desisderi aggiungerli tutti lascia vuota la casella di testo");
+        instructions.setPreferredSize(new java.awt.Dimension(200, 50));
+
+        pName4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        pName4.setPreferredSize(new java.awt.Dimension(200, 50));
         pName4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pName4ActionPerformed(evt);
             }
         });
-
-        instructions.setText("Inserisci il nome dei giocatori, se non desisderi aggiungerli tutti lascia vuota la casella di testo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,35 +132,45 @@ public class Game extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(413, 413, 413)
-                        .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
+                        .addComponent(pName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72)
+                        .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
+                        .addComponent(pName4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(347, 347, 347)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(instructions)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(pName1)
-                                .addComponent(pName3)
-                                .addComponent(pName4)
-                                .addComponent(pName2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(505, Short.MAX_VALUE))
+                        .addGap(246, 246, 246)
+                        .addComponent(pName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(342, 342, 342)
+                        .addComponent(pName3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(163, 163, 163)
+                        .addComponent(instructions, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(instructions)
-                .addGap(33, 33, 33)
-                .addComponent(pName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
+                .addComponent(instructions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(pName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(pName4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(210, 210, 210)
+                        .addComponent(pName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(81, 81, 81)
                 .addComponent(pName3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(pName4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
-                .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(314, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,6 +178,7 @@ public class Game extends javax.swing.JFrame {
 
     private void StartGameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartGameBtnActionPerformed
         // TODO add your handling code here:
+        
         StartGameBtn.setVisible(false);
         pName1.setVisible(false);
         pName2.setVisible(false);
@@ -130,6 +187,7 @@ public class Game extends javax.swing.JFrame {
         instructions.setVisible(false);
         setMenuPanel();
         setGamePanel();
+        
 
     }//GEN-LAST:event_StartGameBtnActionPerformed
 
@@ -180,24 +238,31 @@ public class Game extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Game().setVisible(true);
+                Game g = new Game();
+                g.setVisible(true);
             }
         });
     }
 
     
-    public void setGamePanel(){
+    private void setGamePanel(){
         gp = new GamePanel(); 
         gp.setSize(1200, 700);
         gp.setBounds(50, 50, 1100, 700);
         this.getContentPane().add(gp);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 }
-    public void setMenuPanel (){
+    private void setMenuPanel (){
         mp = new MenuPanel(createPlayers());
         mp.setBounds(1100, 50, 400, 700);
         this.add(mp);
-     
+    }
+    
+    private void setEndPanel(){
+        ep = new EndPanel(); 
+        ep.setSize(1200, 700);
+        ep.setBounds(50, 50, 1100, 700);
+        this.getContentPane().add(ep);
     }
     
     public Player[] createPlayers(){

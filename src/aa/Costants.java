@@ -12,6 +12,7 @@ import java.awt.Color;
  * @author matte
  */
 public class Costants {
-    static public Color mainColor = new java.awt.Color(255, 255, 255);
-    static public Color secondaryColor = new java.awt.Color(67, 250, 122);
+    static public Color mainColor = new java.awt.Color(213, 252, 179);
+    static public Color secondaryColor = new java.awt.Color(149, 58, 199);
+    static public Color blackColor = new java.awt.Color(100, 100, 0);
 }

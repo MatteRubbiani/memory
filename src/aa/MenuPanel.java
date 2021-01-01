@@ -8,8 +8,11 @@ package aa;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
@@ -26,7 +29,6 @@ public class MenuPanel extends javax.swing.JPanel {
     public MenuPanel(Player[] playersMatrix) {
         initComponents();
         setBackground(Costants.mainColor);
-        this.setBorder(new LineBorder(Costants.secondaryColor, 3));
         this.playersMatrix = playersMatrix;
         this.sortedPlayers = playersMatrix;
         this.updatePlayerInfo();
@@ -36,6 +38,7 @@ public class MenuPanel extends javax.swing.JPanel {
     public void setSortedPlayers(){
        Arrays.sort(this.sortedPlayers, Comparator.comparing(Player::getPoints).reversed());
     }
+    
     public void setClassifica(){
         this.setSortedPlayers();
         int n = this.playersMatrix.length;
@@ -78,8 +81,10 @@ public class MenuPanel extends javax.swing.JPanel {
             firstNumber.setVisible(false);
         }
     }
+    
     public void setDescriptionLabel(String text){
         descriptionLabel.setText("<html>"+text+"</html>");
+        descriptionLabel.setForeground(Color.black);
 
     }
     
@@ -114,6 +119,12 @@ public class MenuPanel extends javax.swing.JPanel {
     public void takeBettini(){
         bettiniWasTaken = true;
         whoHasBettini = this.playerTurn%(this.playersMatrix.length);
+    }
+    
+    public void alert(int id){
+        
+        descriptionLabel.setText("<html>"+"punto fatto, il tabellon è stato mischiato"+"</html>");
+        descriptionLabel.setForeground(Color.red);
     }
     
 

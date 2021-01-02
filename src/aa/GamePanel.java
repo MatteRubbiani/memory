@@ -276,6 +276,12 @@ public class GamePanel extends javax.swing.JPanel {
         emptyPhMatrix();
         fillPh();
     }
+    
+    public void changeToMorelliVersion(){
+        for (Card i: cardsMatrix){
+            i.changeToMorelliVersion();
+        }
+    }
 
     public void emptyPh(JPanel p) {
         Component[] componentList = p.getComponents();

@@ -7,14 +7,9 @@ package aa;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
 
 /**
  *  
@@ -121,10 +116,44 @@ public class MenuPanel extends javax.swing.JPanel {
         whoHasBettini = this.playerTurn%(this.playersMatrix.length);
     }
     
-    public void alert(int id){
+    public void alertWrongCouple(int id){
+        String text = "TEXT";
+        //WRONG
+        if (id == 3){
+            text = "IL TABELLONE E' STATO MESCOLATO";
+        }
+        if (id == 4){
+            text = "IL TABELLONE E' STATO RUOTATO SOTTOSOPRA";
+        }
+        if (id == 3){
+            text = "IL TABELLONE E' STATO MESCOLATO";
+        }
         
-        descriptionLabel.setText("<html>"+"punto fatto, il tabellon è stato mischiato"+"</html>");
-        descriptionLabel.setForeground(Color.red);
+        if (!text.equals("TEXT")){
+            descriptionLabel.setText("<html>"+text+"</html>");
+            descriptionLabel.setForeground(Color.red);
+        }
+    }
+    
+    public void alertRightCouple(int id){
+        String text = "TEXT";
+        //RIGHT
+        if (id == 0){
+            text = "E' STATO SOTTRATTO UN PUNTO A TUTTI I GIOCATORI MENO CHE " +  this.playersMatrix[this.playerTurn%(this.playersMatrix.length)].name;
+        }
+        
+        if (id == 6){
+                text = "I PUNTI BETTINI SONO STATI ANNULLATI";
+        }
+        
+        if (id == 9){
+            text = "SONO STATI AGGIUNTI DUE PUNTI A " +  this.playersMatrix[this.playerTurn%(this.playersMatrix.length)].name;
+        }
+        
+        if (!text.equals("TEXT")){
+            descriptionLabel.setText("<html>"+text+"</html>");
+            descriptionLabel.setForeground(Color.red);
+        }
     }
     
 

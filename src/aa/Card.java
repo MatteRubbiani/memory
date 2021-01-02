@@ -19,7 +19,7 @@ import javax.swing.JLabel;
  */
 public class Card extends javax.swing.JPanel implements ActionListener {
 
-    int status; int id; JLabel backImage; String superPowerDescription; Image frontImage; String name; JLabel front_image;
+    int status; int id; JLabel backImage; String superPowerDescription; Image frontImage; String name; JLabel front_image; boolean isMorelliVersion = false;
     public Card(int card_id, String description) throws IOException {
         initComponents();
         this.status = 0; //back:0, front:1, taken:2
@@ -37,33 +37,38 @@ public class Card extends javax.swing.JPanel implements ActionListener {
         add(this.front_image);
     }
     
+    private void updateMenuPanelCardInfo(){
+            Game.mp.setDescriptionLabel(this.superPowerDescription);
+            Game.mp.setNameLabel(this.name);
+            JLabel front_image_1 = createImageGivenId("ciao");
+            Game.mp.refresh(front_image_1);
+    }
+    
     public void turnCardUp() {
+        //Game.gp.changeToMorelliVersion();
         rotateCardUp(); 
-        Game.mp.setDescriptionLabel(this.superPowerDescription);
-        Game.mp.setNameLabel(this.name);
         Game.numeroMosse += 1;
         Game.numeroMosseReali +=1;
-        JLabel front_image_1 = createImageGivenId("ciao");
-        Game.mp.refresh(front_image_1);
+        
+        
         int numeroMosse = Game.numeroMosse;
         if (numeroMosse % 3 == 1){
+            updateMenuPanelCardInfo();
             superPowerSingle();
             Game.gp.changeLastCardUp(this);
         }
+        
         if (numeroMosse % 3 == 2){
             Card firstCard = Game.gp.lastCardUp;
-            //MODIFICATA
             if (firstCard.name.equals(this.name)){
                 superPowerRightCouple();
                 firstCard.status = 2;
                 this.status = 2;
                 Game.mp.addPointsToCurrentPlayer(1);
-                Game.mp.alert(this.id);
             }else{
                 superPowerWrongCouple();
                 Game.mp.playerTurn += 1;
             }
-            // VA BENEEEEE DA QUI
             Game.mp.updatePlayerInfo();
             Game.mp.setClassifica();
         }
@@ -85,8 +90,9 @@ public class Card extends javax.swing.JPanel implements ActionListener {
 
     }
     
-    public void superPowerWrongCouple(){
+    private void superPowerWrongCouple(){
         Card c = Game.gp.lastCardUp;
+        Game.mp.alertWrongCouple(c.id);
         //garbesi 2
         if (c.id % 20 == 2){
             Game.gp.PattyUnlt();
@@ -113,7 +119,8 @@ public class Card extends javax.swing.JPanel implements ActionListener {
         }
     }
     
-    public void superPowerRightCouple(){
+    private void superPowerRightCouple(){
+        Game.mp.alertRightCouple(Game.gp.lastCardUp.id);
         Card c = Game.gp.lastCardUp;
         //ferraguri 0
         if (c.id % 20 == 0){
@@ -148,7 +155,7 @@ public class Card extends javax.swing.JPanel implements ActionListener {
      
     }
     
-    public void superPowerSingle(){
+    private void superPowerSingle(){
         //Garbersi 2
         if (this.id % 20 == 2){
             Game.gp.pattyHlt(this.id);
@@ -165,17 +172,35 @@ public class Card extends javax.swing.JPanel implements ActionListener {
         //Morelli 17
         
     }
-
+    
+    public void changeToMorelliVersion(){
+        isMorelliVersion = true;
+        ImageIcon icon = createImageIcon("imagesMORELLI/" + 10 + ".jpg", this.id+"");
+        //ImageIcon icon = createImageIcon("imagesMORELLI/" + this.id % 20 + ".jpg", this.id+"");
+        JLabel label1 = new JLabel("", icon, JLabel.CENTER);
+        this.front_image = label1;
+    }
+    
+    public void changeToParlatoVersion(){
+        isMorelliVersion = false;
+        ImageIcon icon = createImageIcon("images/" + this.id % 20 + ".jpg", this.id+"");
+        JLabel label1 = new JLabel("", icon, JLabel.CENTER);
+        this.front_image = label1;
+    }
+    
     public JLabel loadImage() {
         ImageIcon icon = createImageIcon("images/" + this.id % 20 + ".jpg", this.id+"");
         JLabel label1 = new JLabel("", icon, JLabel.CENTER);
         return label1;
-
-        //add(label1);
     }
     
     public JLabel createImageGivenId(String id) {
-        ImageIcon icon = createImageIcon("images/" + this.id % 20 + ".jpg", id);
+        ImageIcon icon;
+        if (!isMorelliVersion){
+            icon = createImageIcon("images/" + this.id % 20 + ".jpg", id);
+        }else{
+            icon = createImageIcon("imagesMORELLI/" + 10 + ".jpg", id);
+        }
         JLabel label1 = new JLabel("", icon, JLabel.CENTER);
         return label1;
     }

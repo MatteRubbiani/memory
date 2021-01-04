@@ -7,9 +7,14 @@ package aa;
 
 import static aa.Game.gp;
 import static aa.Game.mp;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -18,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 
 /**
@@ -32,7 +38,7 @@ public class Game extends javax.swing.JFrame {
     /**
      * Creates new form Game1
      */
-    static MenuPanel mp; static int numeroMosse = 0; static GamePanel gp; static int numeroMosseReali = 0;  static EndPanel ep;
+    static MenuPanel mp; static int numeroMosse = 0; static GamePanel gp; static int numeroMosseReali = 0;  static EndPanel ep; ArrayList<JTextField> players = new ArrayList<>();
 
     public Game() {
         UIManager.put("TextField.background", Color.WHITE);
@@ -42,27 +48,18 @@ public class Game extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         getContentPane().setBackground(Costants.mainColor);
-    }
-    
-    public boolean gameHasEnded(){
-        for (Card i: gp.cardsMatrix){
-            if (i.status != 2){
-                return false;
+        addPlayerField();
+        this.getRootPane().setDefaultButton(StartGameBtn);
+        
+        /*pName2.setVisible(false);
+        pName1.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                System.out.println("clicked");
             }
-        }
-        return true;
+        });*/
     }
-    
-    
-    public void checkGameStatus(){
-        if (!gameHasEnded()){
-            mp.setVisible(false);
-            gp.setVisible(false);
-            setEndPanel();
-            ep.setVisible(true);
-        }
-    }
-    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,11 +70,7 @@ public class Game extends javax.swing.JFrame {
     private void initComponents() {
 
         StartGameBtn = new javax.swing.JButton();
-        pName1 = new javax.swing.JTextField();
-        pName2 = new javax.swing.JTextField();
-        pName3 = new javax.swing.JTextField();
         instructions = new javax.swing.JLabel();
-        pName4 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,123 +82,42 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
-        pName1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        pName1.setPreferredSize(new java.awt.Dimension(200, 50));
-        pName1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pName1ActionPerformed(evt);
-            }
-        });
-
-        pName2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        pName2.setMinimumSize(new java.awt.Dimension(200, 50));
-        pName2.setPreferredSize(new java.awt.Dimension(200, 50));
-        pName2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pName2ActionPerformed(evt);
-            }
-        });
-
-        pName3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        pName3.setPreferredSize(new java.awt.Dimension(200, 50));
-        pName3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pName3ActionPerformed(evt);
-            }
-        });
-
         instructions.setText("Inserisci il nome dei giocatori, se non desisderi aggiungerli tutti lascia vuota la casella di testo");
         instructions.setPreferredSize(new java.awt.Dimension(200, 50));
-
-        pName4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        pName4.setPreferredSize(new java.awt.Dimension(200, 50));
-        pName4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pName4ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(pName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72)
-                        .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
-                        .addComponent(pName4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
-                        .addComponent(pName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(342, 342, 342)
-                        .addComponent(pName3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(instructions, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addGap(163, 163, 163)
+                .addComponent(instructions, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(200, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(246, 246, 246))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(instructions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(pName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addComponent(pName4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(64, 64, 64)
-                                .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(210, 210, 210)
-                        .addComponent(pName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(81, 81, 81)
-                .addComponent(pName3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addGap(165, 165, 165)
+                .addComponent(StartGameBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(292, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void StartGameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartGameBtnActionPerformed
-        // TODO add your handling code here:
-        
         StartGameBtn.setVisible(false);
-        pName1.setVisible(false);
-        pName2.setVisible(false);
-        pName3.setVisible(false);
-        pName4.setVisible(false);
         instructions.setVisible(false);
+        hidePlayerFields();
         setMenuPanel();
         setGamePanel();
-        
-
     }//GEN-LAST:event_StartGameBtnActionPerformed
-
-    private void pName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pName1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pName1ActionPerformed
-
-    private void pName2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pName2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pName2ActionPerformed
-
-    private void pName3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pName3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pName3ActionPerformed
-
-    private void pName4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pName4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pName4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,6 +164,7 @@ public class Game extends javax.swing.JFrame {
         this.getContentPane().add(gp);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 }
+    
     private void setMenuPanel (){
         mp = new MenuPanel(createPlayers());
         mp.setBounds(1100, 50, 400, 700);
@@ -265,35 +178,57 @@ public class Game extends javax.swing.JFrame {
         this.getContentPane().add(ep);
     }
     
+
     public Player[] createPlayers(){
-        int players = 0;
-        if (!pName1.getText().isEmpty()){
-            players++;
+        for (Object i: this.players.toArray()){
+            JTextField t = (JTextField) i;
+            if (t.getText().isEmpty()){
+                this.players.remove(t);
+            }
         }
-        if (!pName2.getText().isEmpty()){
-            players++;
+        Object[] textFields =  this.players.toArray();
+        Player[] players = new Player[textFields.length];
+        for (int i=0; i<textFields.length; i++){
+            JTextField tF = (JTextField) textFields[i];
+            players[i] = new Player(tF.getText());
         }
-        if (!pName3.getText().isEmpty()){
-            players++;
+        return players;
+    }
+    
+    public void hidePlayerFields(){
+        for (Object i: this.players.toArray()){
+            JTextField t = (JTextField) i;
+            t.setVisible(false);
         }
-        if (!pName4.getText().isEmpty()){
-            players++;
-        }
-        JTextField[] x = {pName1, pName2, pName3, pName4};
-        Player[] y = new Player[players];
-        for (int i=0; i<players; i++){
-            y[i] = new Player(x[i].getText());
-        }
-        return y;
+    }
+    public void addPlayerField(){
+        JTextField t = createJTextField(this.players.size());
+        this.players.add(t);
+    }
+    
+    
+    public JTextField createJTextField(int id){
+        JTextField tF = new JTextField();
+        tF.setPreferredSize(new Dimension(90, 40));
+        tF.setBounds(100, 200 + id * 50, 90, 40);
+        tF.setBorder(new LineBorder(Costants.mainColor, 2));
+        
+        tF.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+               addPlayerField();
+               System.out.println("entraato");
+            }
+        });
+        
+        this.add(tF);
+        this.repaint();
+        return tF;
     }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton StartGameBtn;
     private javax.swing.JLabel instructions;
-    private javax.swing.JTextField pName1;
-    private javax.swing.JTextField pName2;
-    private javax.swing.JTextField pName3;
-    private javax.swing.JTextField pName4;
     // End of variables declaration//GEN-END:variables
 }

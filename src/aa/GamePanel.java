@@ -282,6 +282,12 @@ public class GamePanel extends javax.swing.JPanel {
             i.changeToMorelliVersion();
         }
     }
+    
+    public void changeToParlatoVersion(){
+        for (Card i: cardsMatrix){
+            i.changeToParlatoVersion();
+        }
+    }
 
     public void emptyPh(JPanel p) {
         Component[] componentList = p.getComponents();

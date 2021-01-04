@@ -169,13 +169,19 @@ public class Card extends javax.swing.JPanel implements ActionListener {
             }
         }
         //Parlato 12
+        if (this.id % 20 == 12){
+            Game.gp.changeToParlatoVersion();
+        }
         //Morelli 17
+        if (this.id % 20 == 17){
+            Game.gp.changeToMorelliVersion();
+        }
         
     }
     
     public void changeToMorelliVersion(){
         isMorelliVersion = true;
-        ImageIcon icon = createImageIcon("imagesMORELLI/" + 10 + ".jpg", this.id+"");
+        ImageIcon icon = createImageIcon("imagesMORELLI/" +  + this.id % 20 + ".jpg", this.id+"");
         //ImageIcon icon = createImageIcon("imagesMORELLI/" + this.id % 20 + ".jpg", this.id+"");
         JLabel label1 = new JLabel("", icon, JLabel.CENTER);
         this.front_image = label1;
@@ -199,7 +205,7 @@ public class Card extends javax.swing.JPanel implements ActionListener {
         if (!isMorelliVersion){
             icon = createImageIcon("images/" + this.id % 20 + ".jpg", id);
         }else{
-            icon = createImageIcon("imagesMORELLI/" + 10 + ".jpg", id);
+            icon = createImageIcon("imagesMORELLI/" + this.id % 20 + ".jpg", id);
         }
         JLabel label1 = new JLabel("", icon, JLabel.CENTER);
         return label1;

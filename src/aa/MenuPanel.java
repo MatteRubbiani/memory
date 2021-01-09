@@ -36,40 +36,40 @@ public class MenuPanel extends javax.swing.JPanel {
     
     public void setClassifica(){
         this.setSortedPlayers();
-        int n = this.playersMatrix.length;
-        Player a;
-        if (n >= 4){
-            a = sortedPlayers[3];
-            fourthLabel.setText(a.name);
-            fourthPointsLabel.setText(a.points + "");
+        int numberofplayers = this.playersMatrix.length;
+        Player player;
+        if (numberofplayers >= 4){
+            player = sortedPlayers[3];
+            fourthLabel.setText(player.name);
+            fourthPointsLabel.setText(player.points + "");
         }else{
             fourthLabel.setVisible(false);
             fourthPointsLabel.setVisible(false);
             fourthNumber.setVisible(false);
         }
         
-        if (n >= 3){
-            a = sortedPlayers[2];
-            thirdLabel.setText(a.name);
-            thirdPointsLabel.setText(a.points + "");
+        if (numberofplayers >= 3){
+            player = sortedPlayers[2];
+            thirdLabel.setText(player.name);
+            thirdPointsLabel.setText(player.points + "");
         }else{
             thirdLabel.setVisible(false);
             thirdPointsLabel.setVisible(false);
             thirdNumber.setVisible(false);
         }
-        if (n >= 2){
-            a = sortedPlayers[1];
-            secondLabel.setText(a.name);
-            secondPointLabel.setText(a.points + "");
+        if (numberofplayers >= 2){
+            player = sortedPlayers[1];
+            secondLabel.setText(player.name);
+            secondPointLabel.setText(player.points + "");
         }else{
             secondLabel.setVisible(false);
             secondPointLabel.setVisible(false);
             secondNumber.setVisible(false);
         }
-        if (n >= 1){
-            a = sortedPlayers[0];
-            firstLabel.setText(a.name);
-            firstPointsLabel.setText(a.points + "");
+        if (numberofplayers >= 1){
+            player = sortedPlayers[0];
+            firstLabel.setText(player.name);
+            firstPointsLabel.setText(player.points + "");
         }else{
             firstLabel.setVisible(false);
             firstPointsLabel.setVisible(false);
